@@ -58,7 +58,7 @@ class Doc(core_models.TimeStampedModel):
     monthly_budget = models.IntegerField(default=500000)
     urgent_budget = models.IntegerField(default=5000000)
     budget_how = models.TextField(
-        default="", help_dtext="Please tell us how you plan to finance your budget."
+        default="", help_text="Please tell us how you plan to finance your budget."
     )
     protect_window = models.BooleanField(default=False)
     protect_door = models.BooleanField(default=False)

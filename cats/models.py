@@ -1,3 +1,5 @@
+import math
+from datetime import date
 from django.db import models
 from core import models as core_models
 
@@ -69,7 +71,7 @@ class Cat(core_models.TimeStampedModel):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10)
     is_neutered = models.BooleanField(default=False)
     birthdate = models.DateField(null=True, blank=True)
-    estimated_age = models.CharField(max_length=10, default=0)
+    estimated_age = models.CharField(max_length=10, default=0, blank=True)
     coat_color = models.ForeignKey(
         CoatColor, related_name="cats", null=True, on_delete=models.SET_NULL
     )
@@ -109,3 +111,35 @@ class Cat(core_models.TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def count_age(self):
+        now = date.today()
+        birth = self.birthdate
+        if birth != None:
+            difference = now - birth
+            if difference.days > 365:
+                year_age = math.floor((difference.days) / 365)
+                age = f"{year_age} year(s) old"
+            else:
+                month_age = math.floor((difference.days) / 30)
+                age = f"{month_age} months"
+        else:
+            age = self.estimated_age
+        return age
+
+    def first_photo(self):
+        (photo,) = self.photos.all()[:1]
+        return photo.file.url
+
+    def get_rest_photos(self):
+        photos = self.photos.all()[1:5]
+        return photos
+
+
+class Photo(core_models.TimeStampedModel):
+    caption = models.CharField(max_length=80, null=True, default="")
+    file = models.ImageField(upload_to="cat_photos")
+    cat = models.ForeignKey("Cat", related_name="photos", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.caption

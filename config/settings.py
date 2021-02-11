@@ -51,6 +51,7 @@ PROJECT_APPS = [
     "lists.apps.ListsConfig",
     "conversations.apps.ConversationsConfig",
     "vets.apps.VetsConfig",
+    "groups.apps.GroupsConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -134,3 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+AUTH_USER_MODEL = "users.User"

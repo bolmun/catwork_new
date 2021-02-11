@@ -3,7 +3,7 @@ from . import models
 
 
 @admin.register(models.Message)
-class MessageModelAdmin:
+class MessageModelAdmin(admin.ModelAdmin):
 
     list_display = ("__str__", "created")
 

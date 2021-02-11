@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import Group
 
 
-class Group(AbstractUser):
+class CatGroup(Group):
 
     bio = models.TextField()
     members = models.ManyToManyField("users.User", blank=True, related_name="group")

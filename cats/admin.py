@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import mark_safe
 from . import models
 
 
@@ -74,3 +75,14 @@ class CatAdmin(admin.ModelAdmin):
     filter_horizontal = ("bro_sis", "marking", "characteristic")
 
     search_fields = ("=city", "^care_taker__username", "=name")
+
+
+@admin.register(models.Photo)
+class PhotoAdmin(admin.ModelAdmin):
+
+    list_display = ("__str__", "get_thumbnail")
+
+    def get_thumbnail(self, obj):
+        return mark_safe(f"<img width='50px' src='{obj.file.url}' />")
+
+    get_thumbnail.short_description = "Thumbnail"
