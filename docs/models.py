@@ -58,7 +58,7 @@ class Doc(core_models.TimeStampedModel):
     monthly_budget = models.IntegerField(default=500000)
     urgent_budget = models.IntegerField(default=5000000)
     budget_how = models.TextField(
-        default="", help_text="Please tell us how you plan to finance your budget."
+        default="", help_dtext="Please tell us how you plan to finance your budget."
     )
     protect_window = models.BooleanField(default=False)
     protect_door = models.BooleanField(default=False)
@@ -67,3 +67,9 @@ class Doc(core_models.TimeStampedModel):
 
     def __str__(self):
         return f"{self.applicant} | {self.cat} Adoption application"
+
+    def id_card_verification(self):
+        if self.applicant.id_card_verified:
+            return True
+        else:
+            return False
