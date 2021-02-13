@@ -3,6 +3,8 @@ from django.contrib.auth.models import Group
 
 
 class CatGroup(Group):
+    class Meta:
+        verbose_name_plural = "Cat Protection Organizations"
 
     bio = models.TextField()
     members = models.ManyToManyField("users.User", blank=True, related_name="group")

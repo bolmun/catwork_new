@@ -35,15 +35,6 @@ class Characteristic(AbstractItem):
         verbose_name_plural = "Characteristics"
 
 
-class Photo(core_models.TimeStampedModel):
-    caption = models.CharField(max_length=80)
-    file = models.ImageField(upload_to="cat_photos")
-    cat = models.ForeignKey("Cat", related_name="photos", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.caption
-
-
 class Cat(core_models.TimeStampedModel):
 
     GENDER_MALE = "male"
@@ -72,14 +63,12 @@ class Cat(core_models.TimeStampedModel):
     is_neutered = models.BooleanField(default=False)
     birthdate = models.DateField(null=True, blank=True)
     estimated_age = models.CharField(max_length=10, default=0, blank=True)
-    coat_color = models.ForeignKey(
-        CoatColor, related_name="cats", null=True, on_delete=models.SET_NULL
-    )
+    coat_color = models.ManyToManyField("CoatColor", related_name="cats", blank=True)
     coat_length = models.CharField(choices=COAT_LENGTH, max_length=15)
     coat_pattern = models.ForeignKey(
         CoatPattern, related_name="cats", null=True, on_delete=models.SET_NULL
     )
-    marking = models.ManyToManyField(Marking, blank=True)
+    marking = models.ManyToManyField("Marking", blank=True, related_name="cats")
     characteristic = models.ManyToManyField(Characteristic, blank=True)
     mom_cat = models.ForeignKey(
         "self",
